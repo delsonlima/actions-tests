@@ -20,5 +20,5 @@ jobs:
 
     - name: List Docker Image Tags
       run: |
-        IMAGE_NAME="ghcr.io/delsonlima/bluefin-dx-nvidia-d3l"
-        curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" "https://ghcr.io/v2/${IMAGE_NAME}/tags/list"
+        IMAGE_NAME="delsonlima/bluefin-dx-nvidia-d3l"
+        skopeo list-tags --registry-token "${{ secrets.GITHUB_TOKEN }}" "docker://ghcr.io/IMAGE_NAME"
