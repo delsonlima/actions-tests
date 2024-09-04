@@ -8,34 +8,22 @@ on:
     - cron: '05 10 * * *'  # 10:05am UTC everyday
 
 jobs:
-  check-tags:
+  list-tags:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      - name: Get Docker tags
-        id: docker_metadata
-        uses: docker/metadata-action@v4
-        with:
-          images: ghcr.io/ublue-os/bluefin-dx-nvidia
+    - name: Set up Docker CLI
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y docker.io
 
-      - name: Print tags
-        run: |
-          echo "${{ steps.docker_metadata.outputs.tags }}"
+    - name: Login to GitHub Container Registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-  scan:
-    name: List Recent Updates
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Scan Docker Repository
-        uses: dhet/scan-docker-tags-action@v1.0.1
-        with:
-          image: ublue-os/bluefin-dx-nvidia
-          repo-url: https://ghcr.io
-          max-age-minutes: 1440
-        id: scan
-      - name: Print
-        run: "echo 'Recent updates: ${{ steps.scan.outputs.tags }}'"
+    - name: List Docker Image Tags
+      run: |
+        IMAGE_NAME="ghcr.io/ublue-os/bluefin-dx-nvidia"
+        curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" "https://ghcr.io/v2/${IMAGE_NAME}/tags/list" | jq '.tags[]'
