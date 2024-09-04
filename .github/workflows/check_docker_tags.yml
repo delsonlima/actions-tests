@@ -21,4 +21,4 @@ jobs:
     - name: List Docker Image Tags
       run: |
         IMAGE_NAME="ghcr.io/ublue-os/bluefin-dx-nvidia"
-        curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" "https://ghcr.io/v2/${IMAGE_NAME}/tags/list" | jq '.tags[]'
+        curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" "https://ghcr.io/v2/${IMAGE_NAME}/tags/list"
