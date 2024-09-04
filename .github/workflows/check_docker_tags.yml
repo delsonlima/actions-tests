@@ -19,9 +19,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Login to GitHub Container Registry
-      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-
     - name: List Docker Image Tags
       run: |
         IMAGE_NAME="ghcr.io/ublue-os/bluefin-dx-nvidia"
