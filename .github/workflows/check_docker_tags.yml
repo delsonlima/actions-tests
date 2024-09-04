@@ -33,7 +33,8 @@ jobs:
       - name: Scan Docker Repository
         uses: dhet/scan-docker-tags-action@v1.0.1
         with:
-          image: ghcr.io/ublue-os/bluefin-dx-nvidia
+          image: ublue-os/bluefin-dx-nvidia
+          repo-url: https://ghcr.io
           max-age-minutes: 1440
         id: scan
       - name: Print
