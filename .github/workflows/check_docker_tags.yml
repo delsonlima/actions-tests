@@ -24,3 +24,17 @@ jobs:
         run: |
           echo "${{ steps.docker_metadata.outputs.tags }}"
 
+  scan:
+    name: List Recent Updates
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Scan Docker Repository
+        uses: dhet/scan-docker-tags-action@v1.0.1
+        with:
+          image: ghcr.io/ublue-os/bluefin-dx-nvidia
+          max-age-minutes: 1440
+        id: scan
+      - name: Print
+        run: "echo 'Recent updates: ${{ steps.scan.outputs.tags }}'"
